@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+    body {
+        margin: 0;
+      }
+      img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+      }
+      button,
+      select {
+        margin-top: 10px;
+        padding: 10px;
+        cursor: pointer;
+      }
+      #navbar {
+        background-color: #cecece;
+        display: flex;
+        flex-direction: row-reverse;
+        padding: 20px;
+      }
+      #navbar > * {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      #container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        width: 90%;
+        margin: auto;
+        margin-top: 20px;
+      }
+      #container > div {
+        padding: 10px;
+        /* border: 1px solid #cecece; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .text-align-center {
+        text-align: center;
+      }
+      #cart-count>a{
+        text-decoration: none;
+      }
+     
+    </style>
+</head>
+<body>
+  <div id="navbar">
+    <div id="cart-count"></div>
+    <button onclick="window.location.href='cart.html'">GO TO CART</button>
+    <button onclick="window.location.href='SignUp.html'">SineUp</button>
+    <button onclick="window.location.href='SignIn.html'">SignIn</button>
+  </div> 
+  </div>
+    
+    
+        <div id="container"></div>
+    
+</body>
+</html>
+<script>
+    var cartArr=JSON.parse(localStorage.getItem('Cart 1'))||[];
+    let url ="https://www.themealdb.com/api/json/v1/1/filter.php?a=Indian"
+    let container=document.getElementById("container")
+    async function getdata(){
+        try{
+            let res=await fetch(url)
+            let data=await (res.json());
+            console.log("data",data)
+            appendproduct(data);
+        }catch(err){
+            console.log("err:",err)
+        }
+        }
+        getdata();
+        function appendproduct(data){
+            data.meals.forEach(function (el,index){
+            let div=document.createElement("div")
+
+            let img=document.createElement("img")
+            img.src=el.strMealThumb
+
+            let title=document.createElement("h2")
+            title.innerHTML=el.strMeal
+            
+            let price=document.createElement("h2")
+            price.innerHTML=Math.round(Math.random()*500)+" $"
+
+            var btn=document.createElement("button");
+            btn.textContent="Add to cart";
+            btn.addEventListener("click",function(){
+                addToCart(el)
+            });
+            div.append(img,title,price,btn)
+               container.append(div)
+        
+            })
+        }
+
+          function addToCart(el){
+              cartArr.push(el);
+              localStorage.setItem("Cart1",JSON.stringify(cartArr));
+              alert("Added succefully")
+          }
+          function count1()
+          {
+              let count=document.getElementById("count")
+              count.innerHTML="Cart Count"+" = "+cartArr.length
+          }
+          count1()
+
+</script>

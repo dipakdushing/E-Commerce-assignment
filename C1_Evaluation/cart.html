@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container{
+            display: grid;
+            grid-template-columns: (4,1fr);
+            gap: 20px;
+            
+
+        }
+        img{
+          width: 300px;
+          height: 300px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Cart Page</h1>
+    <!-- <input id="Couponcode" type="text" placeholder="Apply Coupon Code">
+    <button id="offer">Submit</button>
+    <h2 id="Price_Discount"></h2>
+    <br>
+    <br> -->
+    <button onclick="window.location.href='checkout.html'">Check Out</button>
+    <div id="container"></div>
+</body>
+</html>
+<script>
+    var cartArr= JSON.parse(localStorage.getItem("Cart1"))
+    console.log("cartArr")
+    cartArr.map(function(el){
+    let div=document.createElement("div")
+
+        let img=document.createElement("img")
+        img.src=el.strMealThumb
+
+        let title=document.createElement("h2")
+        title.innerHTML=el.strMeal
+
+        let price=document.createElement("h2")
+        price.innerHTML=Math.round(Math.random()*500)+" $"
+
+        div.append(img,title,price);
+        document.querySelector("#container").append(div)
+
+    });
+</script>
